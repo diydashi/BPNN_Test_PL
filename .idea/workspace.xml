@@ -2,14 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ffe1fe23-bff3-456c-8710-e2297b177629" name="变更" comment="PCA &amp; Data sort">
-      <change afterPath="$PROJECT_DIR$/Test.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Bpnn Test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Bpnn Test.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataSet_IndexTable.bin" beforeDir="false" afterPath="$PROJECT_DIR$/DataSet_IndexTable.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Net.pt" beforeDir="false" afterPath="$PROJECT_DIR$/Net.pt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PCA.py" beforeDir="false" afterPath="$PROJECT_DIR$/PCA.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PreprocessedInputData.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PreprocessedInputData_IndexTable.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PreprocessedOutputData.npy" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Test_X.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Test_X.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Test_Y.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Test_Y.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Train.py" beforeDir="false" afterPath="$PROJECT_DIR$/Train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Train_X.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Train_X.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Train_Y.bin" beforeDir="false" afterPath="$PROJECT_DIR$/Train_Y.bin" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,6 +112,13 @@
       <workItem from="1731074535110" duration="6157000" />
       <workItem from="1731082376396" duration="6012000" />
       <workItem from="1731119586882" duration="143000" />
+      <workItem from="1731120143778" duration="2630000" />
+      <workItem from="1731124298497" duration="4624000" />
+      <workItem from="1731136755418" duration="2166000" />
+      <workItem from="1731165470886" duration="2481000" />
+      <workItem from="1731243053712" duration="4598000" />
+      <workItem from="1731253459389" duration="44656000" />
+      <workItem from="1731376468970" duration="2702000" />
     </task>
     <task id="LOCAL-00001" summary="PCA &amp; Data sort">
       <created>1730989827002</created>
@@ -161,13 +170,33 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Test.py</url>
-          <line>70</line>
+          <line>78</line>
           <option name="timeStamp" value="26" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Test.py</url>
-          <line>66</line>
+          <line>72</line>
           <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Train.py</url>
+          <line>29</line>
+          <option name="timeStamp" value="37" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/PCA.py</url>
+          <line>70</line>
+          <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Test.py</url>
+          <line>33</line>
+          <option name="timeStamp" value="40" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Train.py</url>
+          <line>70</line>
+          <option name="timeStamp" value="42" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -186,12 +215,12 @@
     </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Bpnn_Test$PCA.coverage" NAME="PCA 覆盖结果" MODIFIED="1731068395274" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Bpnn_Test$PCA.coverage" NAME="PCA 覆盖结果" MODIFIED="1731327768869" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Bpnn_Test$main.coverage" NAME="main 覆盖结果" MODIFIED="1728699676431" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Bpnn_Test$Manual_Build.coverage" NAME="Manual_Build 覆盖结果" MODIFIED="1730954207398" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Bpnn_Test$test_doubleweight1.coverage" NAME="test_doubleweight1 覆盖结果" MODIFIED="1729589476473" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Bpnn_Test$test.coverage" NAME="test 覆盖结果" MODIFIED="1730954219913" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Bpnn_Test$Train.coverage" NAME="Train 覆盖结果" MODIFIED="1731075579313" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Bpnn_Test$Test.coverage" NAME="Test 覆盖结果" MODIFIED="1731090307174" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Bpnn_Test$Train.coverage" NAME="Train 覆盖结果" MODIFIED="1731329280993" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Bpnn_Test$Test.coverage" NAME="Test 覆盖结果" MODIFIED="1731327730209" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

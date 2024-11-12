@@ -7,7 +7,7 @@ matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-InputNum = 6
+InputNum = 12
 
 # 提取预处理测试数据
 with open('DataSet_IndexTable.bin', 'rb') as file:
@@ -22,19 +22,25 @@ with open('Test_Y.bin', 'rb') as file:
     OutputArray = pickle.load(file)
     file.close()
 
+with open('x_normalization_factor.bin', 'rb') as file:
+    x_nor = pickle.load(file)
+    file.close()
+
+with open('y_normalization_factor.bin', 'rb') as file:
+    y_nor = pickle.load(file)
+    file.close()
+
+
 Net = torch.load('Net.pt')
 
 
 # 测试集 处理
-def normalization(data):
-    _range = data.max(axis=0) - data.min(axis=0)
-    return (data - data.min(axis=0)) / _range
+def apply_normalization(data, _min, _range):
+    return (data - _min) / _range
 
 
-def de_normalization(original, target):
-    _min = original.min(axis=0)
-    _range = original.max(axis=0) - _min
-    return target * _range + _min
+def apply_de_normalization(data, _min, _range):
+    return data * _range + _min
 
 
 def mape(true, pre):
@@ -44,8 +50,8 @@ def mape(true, pre):
 
 
 InputArray = InputArray[:, 0:InputNum]
-InputArray_Nor = normalization(InputArray)
-OutputArray_Nor = normalization(OutputArray)  # 归一化
+InputArray_Nor = apply_normalization(InputArray, x_nor[0], x_nor[1])
+OutputArray_Nor = apply_normalization(OutputArray, y_nor[0], y_nor[1])  # 归一化
 
 # Test 使用CUDA
 Net_cuda = Net.to(device)
@@ -54,7 +60,7 @@ InputArray_Nor_cuda = InputArray_Nor.to(device)
 
 Yp_Nor_cuda = Net(InputArray_Nor_cuda)
 Yp_Nor = Yp_Nor_cuda.cpu().detach().numpy()
-Yp = de_normalization(OutputArray, Yp_Nor)
+Yp = apply_de_normalization(Yp_Nor, y_nor[0], y_nor[1])
 
 loss_Nor = mape(Yp_Nor, OutputArray_Nor)
 loss = mape(Yp, OutputArray)
@@ -68,6 +74,9 @@ a = np.hstack((OutputArray, Yp)).tolist()
 a.sort(key=(lambda x: x[0]))
 a = list(map(list, zip(*a)))
 
+b = (OutputArray - Yp).tolist()
+
 plt.plot(np.arange(len(OutputArray)), a[1])
 plt.plot(np.arange(len(OutputArray)), a[0])
+plt.plot(np.arange(len(OutputArray)), b)
 plt.show(block=True)
