@@ -2,17 +2,19 @@ import pickle
 import numpy as np
 import torch
 from torch import nn
+import torch.utils.data as TorchData
 import matplotlib.pyplot as plt
 import copy
 
 # 设定参数
 InputNum = 12
-TrainNum = 100000
-LR_Initial = 4
+TrainNum = 5
+BatchSize = 100
+LR_Initial = 1
 
 # 运行平台
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-# device = torch.device('cpu')
+#device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+device = torch.device('cpu')
 
 
 # 读取
@@ -45,7 +47,8 @@ def get_normalization_factor(data):
 
 Nets = []
 Nor_Factors = {"x_min": [], "x_range": [], "y_min": [], "y_range": []}  # 归一化参数表
-LOSSs = [np.nan for i in range(0, len(InputArrays))]
+LOSSs = [copy.deepcopy(np.nan) for i in range(0, len(InputArrays))]
+LOSS_Record = [copy.deepcopy(LOSSs) for i in range(0, TrainNum)]  # 记录损失
 for index in range(0, len(InputArrays)):
     InputArrays[index] = InputArrays[index][:, 0:InputNum]
     x_normalization_min, x_normalization_range = get_normalization_factor(InputArrays[index])
@@ -62,14 +65,6 @@ for index in range(0, len(InputArrays)):
                         nn.Linear(24, 1), nn.Softplus())
 
     Loss = nn.MSELoss()
-    optim = torch.optim.SGD(params=Net.parameters(), lr=LR_Initial)
-    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer=optim,
-                                                           mode='min',
-                                                           factor=0.9995,
-                                                           threshold=1e-7,
-                                                           patience=0,
-                                                           cooldown=1,
-                                                           min_lr=0.1)
 
     # 训练 使用CUDA
     Net_cuda = Net.to(device)
@@ -77,16 +72,48 @@ for index in range(0, len(InputArrays)):
     InputArray_cuda = InputArrays[index].to(device)
     OutputArray_cuda = OutputArrays[index].to(device)
 
-    for i in range(TrainNum):
-        yp = Net_cuda(InputArray_cuda)  # 前向传递的预测值
-        loss = Loss_cuda(yp, OutputArray_cuda)  # 预测值与实际值的差别
-        optim.zero_grad()
-        loss.backward()  # 反向传递
-        optim.step()  # 更新参数
-        scheduler.step(loss)
+    optim = torch.optim.SGD(params=Net_cuda.parameters(), lr=LR_Initial)
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer=optim,
+                                                           mode='min',
+                                                           factor=0.9995,
+                                                           threshold=1e-7,
+                                                           patience=0,
+                                                           cooldown=0,
+                                                           min_lr=0.1)
 
-        LOSSs[index] = loss.data.to('cpu').item()
-        print(i, LOSSs, optim.param_groups[0]['lr'])
+    for epoch in range(TrainNum):
+        count = 0
+        loss_average = 0
+        BatchStartIndex = 0
+        epoch_end = False
+        while True:
+            if BatchStartIndex + BatchSize < len(InputArray_cuda):
+                batch_x = InputArray_cuda[BatchStartIndex:(BatchStartIndex + BatchSize)]
+                batch_y = OutputArray_cuda[BatchStartIndex:(BatchStartIndex + BatchSize)]
+            else:
+                batch_x = InputArray_cuda[BatchStartIndex:len(InputArray_cuda)]
+                batch_y = OutputArray_cuda[BatchStartIndex:len(InputArray_cuda)]
+                epoch_end = True
+
+            yp = Net_cuda(batch_x)  # 前向传递的预测值
+            loss = Loss_cuda(yp, batch_y)  # 预测值与实际值的差别
+            optim.zero_grad()
+            loss.backward()  # 反向传递
+            optim.step()  # 更新参数
+
+            loss_average += loss.to('cpu').data.item()
+            count += 1
+
+            if epoch_end:
+                break
+            BatchStartIndex += BatchSize
+
+
+        loss_average /= count
+        scheduler.step(loss_average)
+        LOSSs[index] = loss_average
+        LOSS_Record[epoch][index] = LOSSs[index]
+        print(epoch, LOSS_Record[epoch], optim.param_groups[0]['lr'])
 
     Net_cpu = Net_cuda.to('cpu')
     Nets.append(copy.deepcopy(Net_cpu))
@@ -110,4 +137,14 @@ with open(SavePath, 'wb') as file:
 SavePath = WorkPath + "/Net/InputNum.bin"
 with open(SavePath, 'wb') as file:
     pickle.dump(InputNum, file)
+    file.close()
+
+SavePath = WorkPath + "/Net/TrainNum.bin"
+with open(SavePath, 'wb') as file:
+    pickle.dump(TrainNum, file)
+    file.close()
+
+SavePath = WorkPath + "/Net/LOSS_Record.bin"
+with open(SavePath, 'wb') as file:
+    pickle.dump(LOSS_Record, file)
     file.close()

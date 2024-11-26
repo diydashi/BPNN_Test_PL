@@ -5,6 +5,7 @@ import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
+import math
 
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -41,6 +42,16 @@ with open(ExtractPath, 'rb') as file:
     InputNum = pickle.load(file)
     file.close()
 
+ExtractPath = WorkPath + "/Net/TrainNum.bin"
+with open(ExtractPath, 'rb') as file:
+    TrainNum = pickle.load(file)
+    file.close()
+
+ExtractPath = WorkPath + "/Net/LOSS_Record.bin"
+with open(ExtractPath, 'rb') as file:
+    LOSS_Record = pickle.load(file)
+    file.close()
+LOSS_Record = list(map(list, zip(*LOSS_Record)))
 
 # 测试集 处理
 def apply_normalization(data, _min, _range):
@@ -98,6 +109,15 @@ for index in range(0, len(InputArrays)):
     plt.xlabel('测试样本序号')
     plt.ylabel('损耗')
 
+    plt.figure()
+    plt.plot(np.arange(TrainNum), np.log10(LOSS_Record[index]))
+
+    plt.rcParams['font.sans-serif'] = ['Microsoft YaHei']
+    plt.gca().yaxis.set_major_formatter(mticker.FormatStrFormatter('10^%.2f'))
+    plt.gca().xaxis.set_major_formatter(mticker.FormatStrFormatter('%.0f'))
+    plt.xlabel('轮次')
+    plt.ylabel('误差')
+
 
 for index in range(0, len(InputArrays) - 1):
     InputArray = InputArrays[index][:, 0:InputNum]
@@ -133,5 +153,7 @@ for index in range(0, len(InputArrays) - 1):
     plt.gca().xaxis.set_major_formatter(mticker.FormatStrFormatter('%.0f'))
     plt.xlabel('测试样本序号')
     plt.ylabel('预测偏差')
+
+
 
 plt.show(block=True)

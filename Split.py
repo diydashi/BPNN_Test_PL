@@ -4,7 +4,7 @@ import numpy as np
 
 
 # 定义
-TestProportion = 0.05
+TestProportion = 0.2
 RandomSeed = 28
 
 
